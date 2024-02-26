@@ -31,11 +31,11 @@ declare module '../index' {
   namespace setGlobalDataPlugin {
     /** Vue3 插件，用于设置 `getApp()` 中的全局变量 */
     interface Plugin {
-      install (app: any, data: any): void
+      install(app: any, data: any): void
     }
   }
 
-    /** @ignore */
+  /** @ignore */
   interface TARO_ENV_TYPE {
     [TaroGeneral.ENV_TYPE.WEAPP]: TaroGeneral.ENV_TYPE.WEAPP
     [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
@@ -45,6 +45,7 @@ declare module '../index' {
     [TaroGeneral.ENV_TYPE.TT]: TaroGeneral.ENV_TYPE.TT
     [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
+    [TaroGeneral.ENV_TYPE.HARMONYHYBRID]: TaroGeneral.ENV_TYPE.HARMONYHYBRID
   }
 
   namespace interceptorify {
@@ -56,7 +57,7 @@ declare module '../index' {
     type InterceptorifyInterceptor<T, R> = (chain: InterceptorifyChain<T, R>) => Promise<R>
     interface Interceptorify<T, R> {
       request(requestParams: T): Promise<R>
-      addInterceptor( interceptor: InterceptorifyInterceptor<T, R>): void
+      addInterceptor(interceptor: InterceptorifyInterceptor<T, R>): void
       cleanInterceptors(): void
     }
   }
@@ -83,7 +84,7 @@ declare module '../index' {
     /** 尺寸转换
      * @supported global
      */
-    pxTransform(size: number, designWidth?: number): string
+    pxTransform(size: number): string
 
     /** 尺寸转换初始化
      * @supported global
@@ -97,14 +98,43 @@ declare module '../index' {
     }): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt, h5
+     * @supported weapp, alipay, jd, qq, swan, tt, h5, harmony_hybrid
      */
     getAppInfo(): getAppInfo.AppInfo
+
+    getEnvInfoSync(): {
+      /** 小程序信息 */
+      microapp: {
+        /** 小程序版本号 */
+        mpVersion: string
+        /** 小程序环境 */
+        envType: string
+        /** 小程序appId */
+        appId: string
+      }
+      /** 插件信息 */
+      plugin: Record<string, unknown>
+      /** 通用参数 */
+      common: {
+        /** 用户数据存储的路径 */
+        USER_DATA_PATH: string
+        /** 校验白名单属性中的appInfoLaunchFrom后返回额外信息 */
+        location: string | undefined
+        launchFrom: string | undefined
+        schema: string | undefined
+      }
+    }
 
     /** 小程序引用插件 JS 接口
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
      */
-    requirePlugin(pluginName: string): any
+    requirePlugin: {
+      (pluginName: string): any
+      /** @supported weapp */
+      (pluginName: string, success?: (mod: any) => any, error?: (e: { mod: any; errMsg: string }) => any): any;
+      /** @supported weapp */
+      async?: (pluginName: string) => Promise<any>
+    }
 
     /** 获取当前页面实例
      * @supported global
@@ -115,7 +145,7 @@ declare module '../index' {
     Current: getCurrentInstance.Current
 
     /** Vue3 插件，用于设置 `getApp()` 中的全局变量
-     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp, harmony_hybrid
      * @example
      * ```js
      * // 使用插件
@@ -130,7 +160,7 @@ declare module '../index' {
     setGlobalDataPlugin: setGlobalDataPlugin.Plugin
 
     /** 获取自定义 TabBar 对应的 React 或 Vue 组件实例
-     * @supported weapp
+     * @supported weapp, jd
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
     getTabBar<T>(page: getCurrentInstance.Current['page']): T | undefined
