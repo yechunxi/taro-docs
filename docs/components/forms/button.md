@@ -213,7 +213,7 @@ export default {
 | publicId | `string` |  | 否 | 生活号 id，必须是当前小程序同主体且已关联的生活号，open-type="lifestyle" 时有效。 |
 | templateId | string or string[] |  | 否 | 发送订阅类模板消息所用的模板库标题 ID ，可通过 getTemplateLibraryList 获取<br />当参数类型为 Array 时，可传递 1~3 个模板库标题 ID |
 | subscribeId | `string` |  | 否 | 发送订阅类模板消息时所使用的唯一标识符，内容由开发者自定义，用来标识订阅场景<br />注意：同一用户在同一 subscribe-id 下的多次授权不累积下发权限，只能下发一条。若要订阅多条，需要不同 subscribe-id |
-| groupId | `string` |  | 否 | 打开群资料卡时，传递的群号 |
+| groupId | `string` |  | 否 | 群聊 id |
 | guildId | `string` |  | 否 | 打开频道页面时，传递的频道号 |
 | shareType | `string` | `27` | 否 | 分享类型集合，请参考下面share-type有效值说明。share-type后续将不再维护，请更新为share-mode |
 | shareMode | `string` | `['qq', 'qzone']` | 否 | 分享类型集合，请参考下面share-mode有效值说明 |
@@ -222,14 +222,18 @@ export default {
 | shareMessageFriendInfo | `string` |  | 否 | 发送对象的 FriendInfo |
 | shareMessageTitle | `string` |  | 否 | 转发标题，不传则默认使用当前小程序的昵称。 FriendInfo |
 | shareMessageImg | `string` |  | 否 | 转发显示图片的链接，可以是网络图片路径（仅 QQ CDN 域名路径）或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4FriendInfo |
+| dataAwemeId | `string` |  | 否 | 跳转抖音号个人页，只支持小程序绑定的品牌号、员工号、合作号 |
+| dataIsHalfPage | `boolean` |  | 否 | 是否开启半屏模式 |
 | onGetUserInfo | `CommonEventFunction<onGetUserInfoEventDetail>` |  | 否 | 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致<br /><br />生效时机: `open-type="getUserInfo"` |
 | onGetAuthorize | `CommonEventFunction` |  | 否 | 支付宝获取会员基础信息授权回调<br /><br />生效时机：`open-type="getAuthorize"` |
 | onContact | `CommonEventFunction<onContactEventDetail>` |  | 否 | 客服消息回调<br /><br />生效时机：`open-type="contact"` |
 | onGetPhoneNumber | `CommonEventFunction<onGetPhoneNumberEventDetail>` |  | 否 | 获取用户手机号回调<br /><br />生效时机：`open-type="getPhoneNumber"` |
+| onGetRealTimePhoneNumber | `CommonEventFunction<onGetRealTimePhoneNumberEventDetail>` |  | 否 | 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效 |
 | onError | `CommonEventFunction` |  | 否 | 当使用开放能力时，发生错误的回调<br /><br />生效时机：`open-type="launchApp"` |
 | onOpenSetting | `CommonEventFunction<onOpenSettingEventDetail>` |  | 否 | 在打开授权设置页后回调<br /><br />生效时机：`open-type="openSetting"` |
 | onLaunchApp | `CommonEventFunction` |  | 否 | 打开 APP 成功的回调<br /><br />生效时机：`open-type="launchApp"` |
 | onChooseAvatar | `CommonEventFunction` |  | 否 | 获取用户头像回调<br /><br />生效时机：`open-type="chooseAvatar"` |
+| onAgreePrivacyAuthorization | `CommonEventFunction` |  | 否 | 用户同意隐私协议事件回调，`open-type="agreePrivacyAuthorization"`时有效 |
 | onTap | `CommonEventFunction` |  | 否 | 点击。<br />说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。 |
 | onFollowLifestyle | CommonEventFunction<{ followStatus: true or 1 or 2 or 3; }> |  | 否 | 当 open-type 为 lifestyle 时有效。<br />当点击按钮时触发。<br />event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；<br />已知问题：基础库 1.0，当用户在点击按钮前已关注生活号，event.detail.followStatus 的值为 true。 |
 | onChooseAddress | `CommonEventFunction` |  | 否 | 用户点击该按钮时，调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址，从返回参数的 detail 中获取，和 swan.chooseAddress 一样的。和 open-type 搭配使用，使用时机：open-type="chooseAddress" |
@@ -238,17 +242,19 @@ export default {
 | onSubscribe | `CommonEventFunction` |  | 否 | 订阅消息授权回调，和 open-type 搭配使用，使用时机：open-type="subscribe" |
 | onAddFriend | `CommonEventFunction` |  | 否 | 添加好友的回调 |
 | onAddGroupApp | `CommonEventFunction` |  | 否 | 添加群应用的回调。errCode 错误码：41004（当前用户非管理员或群主，无权操作），41005（超过可添加群应用的群数量） |
+| onOpenAwemeUserProfile | `CommonEventFunction` |  | 否 | 监听跳转抖音号个人页的回调<br /><br />生效时机：`open-type="openAwemeUserProfile"` |
+| onJoinGroup | `CommonEventFunction<{ errMsg: string; errNo: number; }>` |  | 否 | 加群后触发 |
 
 ### API 支持度
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 抖音小程序 | QQ 小程序 | 京东小程序 | H5 | React Native | Harmony |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | ButtonProps.size | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ButtonProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ButtonProps.plain | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ButtonProps.disabled | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ButtonProps.loading | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ButtonProps.formType | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |  |  |
+| ButtonProps.type | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.plain | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.disabled | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.loading | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ButtonProps.formType | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |  | ✔️ |
 | ButtonProps.openType | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |  |  |
 | ButtonProps.hoverClass | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(支持 hoverStyle 属性，但框架未支持 hoverClass) |  |
 | ButtonProps.hoverStyle |  |  |  |  |  |  |  | ✔️ |  |
@@ -266,7 +272,7 @@ export default {
 | ButtonProps.publicId |  |  | ✔️ |  | ✔️ |  |  |  |  |
 | ButtonProps.templateId |  | ✔️ |  |  |  |  |  |  |  |
 | ButtonProps.subscribeId |  | ✔️ |  |  |  |  |  |  |  |
-| ButtonProps.groupId |  |  |  |  | ✔️ |  |  |  |  |
+| ButtonProps.groupId |  |  |  | ✔️(通过创建聊天群、查询群信息获取) | ✔️(打开群资料卡时，传递的群号) |  |  |  |  |
 | ButtonProps.guildId |  |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.shareType |  |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.shareMode |  |  |  |  | ✔️ |  |  |  |  |
@@ -275,14 +281,18 @@ export default {
 | ButtonProps.shareMessageFriendInfo |  |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.shareMessageTitle |  |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.shareMessageImg |  |  |  |  | ✔️ |  |  |  |  |
+| ButtonProps.dataAwemeId |  |  |  | ✔️ |  |  |  |  |  |
+| ButtonProps.dataIsHalfPage |  |  |  | ✔️ |  |  |  |  |  |
 | ButtonProps.onGetUserInfo | ✔️ | ✔️ | ✔️ |  | ✔️ | ✔️ |  |  |  |
 | ButtonProps.onGetAuthorize |  |  | ✔️ |  |  |  |  |  |  |
 | ButtonProps.onContact | ✔️ | ✔️ |  |  | ✔️ |  |  |  |  |
 | ButtonProps.onGetPhoneNumber | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |  |  |  |
+| ButtonProps.onGetRealTimePhoneNumber | ✔️ |  |  |  |  |  |  |  |  |
 | ButtonProps.onError | ✔️ |  | ✔️ |  | ✔️ | ✔️ |  |  |  |
 | ButtonProps.onOpenSetting | ✔️ | ✔️ |  | ✔️ | ✔️ | ✔️ |  |  |  |
 | ButtonProps.onLaunchApp | ✔️ |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.onChooseAvatar | ✔️ |  |  |  |  |  |  |  |  |
+| ButtonProps.onAgreePrivacyAuthorization | ✔️ |  |  |  |  |  |  |  |  |
 | ButtonProps.onTap |  |  | ✔️ |  |  |  |  |  |  |
 | ButtonProps.onFollowLifestyle |  |  | ✔️ |  |  |  |  |  |  |
 | ButtonProps.onChooseAddress |  | ✔️ |  |  |  |  |  |  |  |
@@ -291,6 +301,8 @@ export default {
 | ButtonProps.onSubscribe |  | ✔️ |  |  |  |  |  |  |  |
 | ButtonProps.onAddFriend |  |  |  |  | ✔️ |  |  |  |  |
 | ButtonProps.onAddGroupApp |  |  |  |  | ✔️ |  |  |  |  |
+| ButtonProps.onOpenAwemeUserProfile |  |  |  | ✔️ |  |  |  |  |  |
+| ButtonProps.onJoinGroup |  |  |  | ✔️ |  |  |  |  |  |
 
 ### Size
 
@@ -330,9 +342,10 @@ open-type 的合法值
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| weapp | `{ contact: any; share: any; getPhoneNumber: any; getUserInfo: any; launchApp: any; openSetting: any; feedback: any; chooseAvatar: any; }` |  |
+| weapp | { contact: any; share: any; getPhoneNumber: any; getRealtimePhoneNumber: any; getUserInfo: any; launchApp: any; openSetting: any; feedback: any; chooseAvatar: any; agreePrivacyAuthorization: any; "getPhoneNumberoragreePrivacyAuthorization": any; "getRealtimePhoneNumberoragreePrivacyAuthorization": any; "getUserInfoorag... |  |
 | alipay | `{ share: any; getAuthorize: any; contactShare: any; lifestyle: any; }` | 支付宝小程序专属的 open-type 合法值<br />[参考地址](https://opendocs.alipay.com/mini/component/button) |
 | qq | `{ share: any; getUserInfo: any; launchApp: any; openSetting: any; feedback: any; openGroupProfile: any; addFriend: any; addColorSign: any; openPublicProfile: any; addGroupApp: any; shareMessageToFriend: any; }` | QQ 小程序专属的 open-type 合法值<br />[参考地址](https://q.qq.com/wiki/develop/miniprogram/component/form/button.html) |
+| tt | `{ share: any; getPhoneNumber: any; im: any; platformIm: any; navigateToVideoView: any; openAwemeUserProfile: any; openWebcastRoom: any; addCalendarEvent: any; addShortcut: any; joinGroup: any; privateMessage: any; authorizePrivateMessage: any; }` | TT 小程序专属的 open-type 合法值<br />[参考地址](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/component/list/button/#open-type-%E7%9A%84%E5%90%88%E6%B3%95%E5%80%BC) |
 
 ### Lang
 
@@ -389,6 +402,12 @@ lang 的合法值
 | API | 微信小程序 | 支付宝小程序 | H5 | React Native | Harmony |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | onGetPhoneNumberEventDetail.sign |  | ✔️ |  |  |  |
+
+### onGetRealTimePhoneNumberEventDetail
+
+| 参数 | 类型 |
+| --- | --- |
+| code | `string` |
 
 ### onOpenSettingEventDetail
 
