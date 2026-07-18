@@ -3,44 +3,69 @@ import { StandardProps, CommonEventFunction } from './common'
 import { StyleProp, ViewStyle } from 'react-native'
 interface ButtonProps extends StandardProps {
   /** 按钮的大小
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @default default
    */
   size?: keyof ButtonProps.Size
   /** 按钮的样式类型
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @default default
    */
   type?: keyof ButtonProps.Type
   /** 按钮是否镂空，背景色透明
-   * @supported weapp, alipay, swan, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @default false
    */
   plain?: boolean
   /** 是否禁用
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @default false
    */
   disabled?: boolean
   /** 名称前是否带 loading 图标
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @default false
    */
   loading?: boolean
   /** 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, harmony, ascf
    */
   formType?: keyof ButtonProps.FormType
   /** 微信开放能力
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   openType?: ButtonProps.OpenType
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default button-hover
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @rn 支持 hoverStyle 属性，但框架未支持 hoverClass
    */
   hoverClass?: string
+  /** open-type=launchApp时有效，表示待启动Ability所在的应用Bundle名称。
+   * @default none
+   * @supported ascf
+   */
+  appBundleName?: string
+  /** open-type=launchApp时有效，表示待启动Ability所属的模块名称。
+   * @default none
+   * @supported ascf
+   */
+  appModuleName?: string
+  /** open-type=launchApp时有效，表示待启动Ability名称。
+   * @default none
+   * @supported ascf
+   */
+  appAbilityName?: string
+  /** open-type=launchApp时有效，表示启动Ability时的自定义参数。
+   * @default none
+   * @supported ascf
+   */
+  appParameters?: Object
+  /** open-type=liveActivity时有效，表示子场景ID，当open-type=liveActivity时，该参数必填。
+   * @default none
+   * @supported ascf
+   */
+  activityType?: string
   /** 由于 RN 不支持 hoverClass，故 RN 端的 Button 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    * @default none
    * @supported rn
@@ -48,17 +73,17 @@ interface ButtonProps extends StandardProps {
   hoverStyle?: StyleProp<ViewStyle>
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   hoverStopPropagation?: boolean
   /** 按住后多久出现点击态，单位毫秒
    * @default 20
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   hoverStartTime?: number
   /** 手指松开后点击态保留时间，单位毫秒
    * @default 70
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   hoverStayTime?: number
   /** 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。
@@ -127,8 +152,10 @@ interface ButtonProps extends StandardProps {
    * @supported swan
    */
   subscribeId?: string
-  /** 打开群资料卡时，传递的群号
-   * @supported qq
+  /** 群聊 id
+   * @qq 打开群资料卡时，传递的群号
+   * @tt 通过创建聊天群、查询群信息获取
+   * @supported qq, tt
    */
   groupId?: string
   /** 打开频道页面时，传递的频道号
@@ -165,6 +192,15 @@ interface ButtonProps extends StandardProps {
    * @supported qq
    */
   shareMessageImg?: string
+  /** 跳转抖音号个人页，只支持小程序绑定的品牌号、员工号、合作号
+   * @supported tt
+   */
+  dataAwemeId?: string
+  /**
+   * 是否开启半屏模式
+   * @supported tt
+   */
+  dataIsHalfPage?: boolean
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
@@ -186,25 +222,42 @@ interface ButtonProps extends StandardProps {
   /** 获取用户手机号回调
    *
    * 生效时机：`open-type="getPhoneNumber"`
-   * @supported weapp, alipay, swan, tt, jd
+   * @supported weapp, alipay, swan, tt, jd, ascf
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
+  /** 获取手机号和风险等级的回调
+   *
+   * 生效时机：`open-type="getPhoneNumberAndRiskLevel"`
+   * @supported ascf
+   */
+  onGetPhoneNumberAndRiskLevel?: CommonEventFunction<ButtonProps.onGetPhoneNumberAndRiskLevelEventDetail>
+  /** 获取服务动态授权码的回调
+   *
+   * 生效时机：`open-type="liveActivity"`
+   * @supported ascf
+   */
+  onCreateLiveActivity?: CommonEventFunction<ButtonProps.onCreateLiveActivityEventDetail>
+  /**
+   * 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效
+   * @supported weapp
+   */
+  onGetRealTimePhoneNumber?: CommonEventFunction<ButtonProps.onGetRealTimePhoneNumberEventDetail>
   /** 当使用开放能力时，发生错误的回调
    *
    * 生效时机：`open-type="launchApp"`
-   * @supported weapp, alipay, qq, jd
+   * @supported weapp, alipay, qq, jd, ascf
    */
   onError?: CommonEventFunction
   /** 在打开授权设置页后回调
    *
    * 生效时机：`open-type="openSetting"`
-   * @supported weapp, swan, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd, ascf
    */
   onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
   /** 打开 APP 成功的回调
    *
    * 生效时机：`open-type="launchApp"`
-   * @supported weapp, qq
+   * @supported weapp, qq, ascf
    */
   onLaunchApp?: CommonEventFunction
   /** 获取用户头像回调
@@ -213,6 +266,11 @@ interface ButtonProps extends StandardProps {
    * @supported weapp
    */
   onChooseAvatar?: CommonEventFunction
+  /**
+   * 用户同意隐私协议事件回调，`open-type="agreePrivacyAuthorization"`时有效
+   * @supported weapp
+   */
+  onAgreePrivacyAuthorization?: CommonEventFunction
   /** 点击。
    * 说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。
    * @supported alipay
@@ -251,6 +309,17 @@ interface ButtonProps extends StandardProps {
    * @supported qq
    */
   onAddGroupApp?: CommonEventFunction
+  /** 监听跳转抖音号个人页的回调
+   *
+   * 生效时机：`open-type="openAwemeUserProfile"`
+   * @supported tt
+   */
+  onOpenAwemeUserProfile?: CommonEventFunction
+  /**
+   * 加群后触发
+   * @supported tt
+   */
+  onJoinGroup?: CommonEventFunction<{ errMsg: string; errNo: number }>
 }
 declare namespace ButtonProps {
   /** size 的合法值 */
@@ -277,9 +346,28 @@ declare namespace ButtonProps {
     reset
   }
   /** open-type 的合法值 */
-  type OpenType = keyof openTypeKeys['weapp'] | keyof openTypeKeys['alipay'] | keyof openTypeKeys['qq']
+  type OpenType =
+    | keyof openTypeKeys['weapp']
+    | keyof openTypeKeys['alipay']
+    | keyof openTypeKeys['qq']
+    | keyof openTypeKeys['tt']
+    | keyof openTypeKeys['ascf']
   /** open-type 的合法值 */
   interface openTypeKeys {
+    ascf: {
+      /** 获取用户手机号码，当open-type等于该值时，为保障用户隐私，button组件采用同层渲染ArkUI原生functionalButton组件的方式实现。 */
+      getPhoneNumber,
+      /** 打开授权设置页面。 */
+      openSetting,
+      /** 打开应用，可以通过app-bundle-name，app-module-name，app-ability-name，app-parameters属性打开指定应用。当前只支持打开系统应用，或者在元服务跳转三方应用的场景下只能打开同系列开发者的应用，否则会遭到系统生态管控拦截，提示应用无法打开 */
+      launchApp,
+      /** 触发用户分享，用户点击按钮后触发Page.onShareAppMessage事件，只支持分享首页。 */
+      share,
+      /** 获取服务动态授权码，用于推送服务动态。当open-type等于该值时，必须同时指定activity-type属性。 */
+      liveActivity,
+      /** 获取手机号和风险等级。 */
+      getPhoneNumberAndRiskLevel
+    }
     weapp: {
       /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html
@@ -293,6 +381,11 @@ declare namespace ButtonProps {
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
        */
       getPhoneNumber
+      /**
+       * 手机号实时验证，向用户申请，并在用户同意后，快速填写和实时验证手机号。（*小程序插件中不能使用*）
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getRealtimePhoneNumber.html
+       */
+      getRealtimePhoneNumber
       /** 获取用户信息，可以从回调中获取到用户信息 */
       getUserInfo
       /** 打开APP，可以通过 app-parameter 属性设定向APP传的参数
@@ -305,6 +398,25 @@ declare namespace ButtonProps {
       feedback
       /** 获取用户头像，可以从回调中获得具体信息 */
       chooseAvatar
+      /**
+       * 用户同意隐私协议按钮。可通过 bindagreeprivacyauthorization 监听用户同意隐私协议事件
+       */
+      agreePrivacyAuthorization
+      /**
+       * 从基础库 2.32.3 版本起，隐私同意按钮支持与手机号快速验证组件耦合使用，调用方式为：
+       * <button open-type="getPhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getPhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与手机号实时验证组件耦合使用，调用方式为：
+       * <button open-type="getRealtimePhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getRealtimePhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与获取用户信息组件耦合使用，调用方式为：
+       * <button open-type="getUserInfo|agreePrivacyAuthorization">
+       */
+      ['getUserInfo|agreePrivacyAuthorization']
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
@@ -349,6 +461,35 @@ declare namespace ButtonProps {
       addGroupApp
       /** 在自定义开放数据域组件中,向指定好友发起分享据 */
       shareMessageToFriend
+    }
+    /** TT 小程序专属的 open-type 合法值
+     * @see https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/component/list/button/#open-type-%E7%9A%84%E5%90%88%E6%B3%95%E5%80%BC
+     */
+    tt: {
+      /** 触发用户转发, 可以配合 data-channel 属性来设置分享的 channel，具体请参考 ShareParam */
+      share
+      /** 获取用户手机号，可以从 bindgetphonenumber 回调中获取到用户信息，详情请参见获取手机号 */
+      getPhoneNumber
+      /** 跳转到抖音IM客服，详情请参见抖音IM客服能力 */
+      im
+      /** 跳转到抖音平台客服，详情请参见平台客服能力 */
+      platformIm
+      /** 跳转视频播放页，详情请参见跳转视频播放页 */
+      navigateToVideoView
+      /** 跳转抖音号个人页，详情请参见跳转抖音号个人页 */
+      openAwemeUserProfile
+      /** 跳转抖音直播间，详情请参见跳转抖音直播间 */
+      openWebcastRoom
+      /** 写入系统日历，详情请参见写入系统日历 */
+      addCalendarEvent
+      /** 添加到桌面，详情请参见添加到桌面 */
+      addShortcut
+      /** 加群，详情请参见加群 */
+      joinGroup
+      /** 私信，详情请参见私信 */
+      privateMessage
+      /** 主动授权私信，详情请参见主动授权私信 */
+      authorizePrivateMessage
     }
   }
   /** lang 的合法值 */
@@ -426,6 +567,15 @@ declare namespace ButtonProps {
      */
     sign: string
   }
+  interface onGetPhoneNumberAndRiskLevelEventDetail {
+    code: string
+  }
+  interface onCreateLiveActivityEventDetail {
+    code: string
+  }
+  interface onGetRealTimePhoneNumberEventDetail {
+    code: string
+  }
   interface onOpenSettingEventDetail {
     /* 打开授权设置页的调用状态 */
     errMsg: string
@@ -435,7 +585,7 @@ declare namespace ButtonProps {
 }
 /** 按钮
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageButton extends Component {
