@@ -2,6 +2,7 @@ declare namespace TaroGeneral {
   type IAnyObject = Record<string, any>
   type Optional<F> = F extends (arg: infer P) => infer R ? (arg?: P) => R : F
   type OptionalInterface<T> = { [K in keyof T]: Optional<T[K]> }
+  type TFunc = (...args: any[]) => any
   /** 事件监听函数 */
   type EventCallback = (
     /** 触发事件参数 */
@@ -409,6 +410,7 @@ declare namespace TaroGeneral {
 
   // ENV_TYPE
   enum ENV_TYPE {
+    ASCF = 'ASCF',
     WEAPP = 'WEAPP',
     SWAN = 'SWAN',
     ALIPAY = 'ALIPAY',
@@ -418,7 +420,8 @@ declare namespace TaroGeneral {
     WEB = 'WEB',
     RN = 'RN',
     HARMONY = 'HARMONY',
-    QUICKAPP = 'QUICKAPP'
+    QUICKAPP = 'QUICKAPP',
+    HARMONYHYBRID = 'HARMONYHYBRID'
   }
 
   type TDeviceRatio = Record<string, number>
