@@ -127,6 +127,12 @@ class App extends Components {
 | onTouchMove | `CommonEventFunction` |  | 否 | 触摸后移动。 |
 | onTouchEnd | `CommonEventFunction` |  | 否 | 触摸动作结束。 |
 | onTouchCancel | `CommonEventFunction` |  | 否 | 触摸动作被打断，如来电提醒、弹窗。 |
+| markerId | `number` |  | 否 | 标记点 ID<br />description: 用于地图组件的标记点识别<br />example: <CoverView markerId={123} /> |
+| slot | `string` |  | 否 | 插槽名称<br />description: 用于组件间的内容分发<br />example: <CoverView slot="header" /> |
+| hoverClass | `string` | `none` | 否 | 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果 |
+| hoverStopPropagation | `boolean` | `false` | 否 | 指定是否阻止本节点的祖先节点出现点击态 |
+| hoverStartTime | `number` | `50` | 否 | 按住后多久出现点击态，单位毫秒 |
+| hoverStayTime | `number` | `400` | 否 | 手指松开后点击态保留时间，单位毫秒 |
 
 ### API 支持度
 
@@ -158,3 +164,9 @@ class App extends Components {
 | CoverViewProps.onTouchMove |  |  | ✔️ |  |  |  |  |  |
 | CoverViewProps.onTouchEnd |  |  | ✔️ |  |  |  |  |  |
 | CoverViewProps.onTouchCancel |  |  | ✔️ |  |  |  |  |  |
+| CoverViewProps.markerId | ✔️ |  |  |  |  |  |  |  |
+| CoverViewProps.slot | ✔️ |  |  |  |  |  |  |  |
+| CoverViewProps.hoverClass |  |  |  |  |  |  |  |  |
+| CoverViewProps.hoverStopPropagation |  |  |  |  |  |  |  |  |
+| CoverViewProps.hoverStartTime |  |  |  |  |  |  |  |  |
+| CoverViewProps.hoverStayTime |  |  |  |  |  |  |  |  |
