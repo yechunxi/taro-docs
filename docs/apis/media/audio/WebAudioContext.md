@@ -373,8 +373,14 @@ const myArrayBuffer = audioCtx.createBuffer(channels, frameCount, audioCtx.sampl
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.decodeAudioData.html)
 
 ```tsx
-() => AudioBuffer
+(audioData: ArrayBuffer, successCallback: (buffer: AudioBuffer) => void, errorCallback: (error: any) => void) => Promise<AudioBuffer>
 ```
+
+| 参数 | 类型 |
+| --- | --- |
+| audioData | `ArrayBuffer` |
+| successCallback | `(buffer: AudioBuffer) => void` |
+| errorCallback | `(error: any) => void` |
 
 #### 示例代码
 
