@@ -90,6 +90,7 @@ export default class PageView extends Component {
 | showMenuByLongpress | `boolean` | `false` | 否 | 开启长按图片显示识别小程序码菜单 |
 | imgProps | `ImgHTMLAttributes<HTMLImageElement>` |  | 否 | 为 img 标签额外增加的属性 |
 | nativeProps | `Record<string, unknown>` |  | 否 | 用于透传 `WebComponents` 上的属性到内部 H5 标签上 |
+| disableDefaultSize | `boolean` | `false` | 否 | H5 / WebComponents 为 true 时关闭默认占位，`taro-image-core` 外层宽高均为 `auto`（默认 false 仍为 320×240）。 |
 | defaultSource | `string` |  | 否 | 默认图片地址，若设置默认图片地址，会先显示默认图片，等 src 对应的图片加载成功后，再渲染对应的图片。 |
 | imageMenuPrevent | `string` |  | 否 | 阻止长按图片时弹起默认菜单（即将该属性设置为image-menu-prevent="true"或image-menu-prevent），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性。注：长按菜单后的操作暂不支持 svg 格式 |
 | preview | `string` |  | 否 | 点击后是否预览图片。在不设置的情况下，若 image 未监听点击事件且宽度大于 1/4 屏宽，则默认开启 |
@@ -105,14 +106,15 @@ export default class PageView extends Component {
 
 | API | 微信小程序 | 百度小程序 | 支付宝小程序 | 抖音小程序 | QQ 小程序 | 京东小程序 | H5 | React Native | Harmony |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| ImageProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| ImageProps.mode | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix) |  |
+| ImageProps.src | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| ImageProps.mode | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix) | ✔️(部分支持 scaleToFill, aspectFit, aspectFill, widthFix, heightFix) |
 | ImageProps.webp | ✔️ | ✔️ |  |  |  |  |  |  |  |
 | ImageProps.svg |  |  |  |  |  |  |  | ✔️ |  |
 | ImageProps.lazyLoad | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  | ✔️ |  |  |
 | ImageProps.showMenuByLongpress | ✔️ |  |  |  |  |  |  |  |  |
 | ImageProps.imgProps |  |  |  |  |  |  | ✔️ |  |  |
 | ImageProps.nativeProps |  |  |  |  |  |  | ✔️ |  |  |
+| ImageProps.disableDefaultSize |  |  |  |  |  |  | ✔️ |  |  |
 | ImageProps.defaultSource |  |  | ✔️ |  |  |  |  |  |  |
 | ImageProps.imageMenuPrevent |  | ✔️ |  |  |  |  |  |  |  |
 | ImageProps.preview |  | ✔️ |  |  |  |  |  |  |  |

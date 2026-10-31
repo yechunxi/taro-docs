@@ -132,6 +132,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {
@@ -231,6 +243,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {
@@ -330,6 +354,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {
@@ -510,7 +546,7 @@ declare module '../../index' {
     openAppAuthorizeSetting(option: openAppAuthorizeSetting.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取窗口信息
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @h5 不支持 statusBarHeight、safeArea
      * @example
      * ```tsx
@@ -530,7 +566,7 @@ declare module '../../index' {
     getWindowInfo(): getWindowInfo.Result
 
     /** 获取设备设置
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 不支持 bluetoothEnabled、locationEnabled、wifiEnabled
      * @example
      * ```tsx
@@ -546,7 +582,7 @@ declare module '../../index' {
     getSystemSetting(): getSystemSetting.Result
 
     /** [Taro.getSystemInfo](./getSystemInfo) 的同步版本
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
@@ -591,7 +627,7 @@ declare module '../../index' {
     getSystemInfoAsync(res?: getSystemInfoAsync.Option): Promise<getSystemInfo.Result>
 
     /** 获取系统信息，支持 `Promise` 化使用。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
@@ -659,7 +695,7 @@ declare module '../../index' {
     getDeviceInfo(): getDeviceInfo.Result
 
     /** 获取微信APP基础信息
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 不支持 SDKVersion、host、version
      * @example
      * ```tsx
@@ -681,7 +717,7 @@ declare module '../../index' {
      * - 'authorized' 表示已经获得授权，无需再次请求授权；
      * - 'denied' 表示请求授权被拒绝，无法再次请求授权；（此情况需要引导用户[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，在设置页中打开权限）
      * - 'non determined' 表示尚未请求授权，会在微信下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 暂未支持设置权限
      * @example
      * ```tsx
