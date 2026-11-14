@@ -15,8 +15,23 @@ declare module '../../index' {
       formData?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒 */
       timeout?: number
+      /** 是否开启 profile。开启后可在接口回调的 res.profile 中查看性能调试信息
+       * @default true
+       * @supported weapp
+       */
+      enableProfile?: boolean
+      /** 是否开启 http2
+       * @default false
+       * @supported weapp
+       */
+      enableHttp2?: boolean
+      /** 是否开启 Quic/h3 协议
+       * @default false
+       * @supported weapp
+       */
+      enableQuic?: boolean
       /** 上传的文件名
-       * @supported h5
+       * @supported h5, rn
        */
       fileName?: string
       /** 是否应使用传出凭据 (cookie) 发送此请求
@@ -52,18 +67,15 @@ declare module '../../index' {
        * @weapp 非官方文档标注属性
        */
       cookies?: string[]
+      /** 网络请求过程中一些调试信息
+       * @supported weapp
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/performance/network.html
+       */
+      profile?: TaroGeneral.IAnyObject
     }
   }
 
   namespace UploadTask {
-    /** HTTP Response Header 事件的回调函数 */
-    type OffHeadersReceivedCallback = (
-      res: TaroGeneral.CallbackResult,
-    ) => void
-    /** 上传进度变化事件的回调函数 */
-    type OffProgressUpdateCallback = (
-      res: TaroGeneral.CallbackResult,
-    ) => void
     /** HTTP Response Header 事件的回调函数 */
     type OnHeadersReceivedCallback = (
       result: OnHeadersReceivedCallbackResult,
@@ -92,7 +104,7 @@ declare module '../../index' {
   }
 
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
-   * @supported weapp, swan, alipay, h5, rn, tt
+   * @supported weapp, swan, alipay, h5, rn, tt, harmony_hybrid
    * @example
    * ```tsx
    * const uploadTask = Taro.uploadFile({
@@ -120,12 +132,12 @@ declare module '../../index' {
    */
   interface UploadTask {
     /** 中断上传任务
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.abort.html
      */
     abort(): void
     /** 监听上传进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -133,15 +145,15 @@ declare module '../../index' {
       callback: UploadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听上传进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offProgressUpdate.html
      */
     offProgressUpdate(
       /** 上传进度变化事件的回调函数 */
-      callback: UploadTask.OffProgressUpdateCallback,
+      callback: UploadTask.OnProgressUpdateCallback,
     ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onHeadersReceived.html
      */
     onHeadersReceived(
@@ -149,18 +161,18 @@ declare module '../../index' {
       callback: UploadTask.OnHeadersReceivedCallback,
     ): void
     /** 取消监听 HTTP Response Header 事件
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offHeadersReceived.html
      */
     offHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: UploadTask.OffHeadersReceivedCallback,
+      callback: UploadTask.OnHeadersReceivedCallback,
     ): void
   }
 
   interface TaroStatic {
     /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-     * @supported weapp, swan, alipay, h5, rn, tt
+     * @supported weapp, swan, alipay, h5, rn, tt, harmony_hybrid, harmony
      * @example
      * ```tsx
      * Taro.chooseImage({
