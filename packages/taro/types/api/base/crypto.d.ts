@@ -42,7 +42,7 @@ declare module '../../index' {
     namespace getLatestUserKey {
       interface Option {
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: SuccessCallbackResult) => void
         /** 接口调用失败的回调函数 */
         fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -88,7 +88,8 @@ declare module '../../index' {
     getUserCryptoManager(): UserCryptoManager
 
     /** 获取密码学安全随机数
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 基于 crypto.getRandomValues 实现
      * @example
      * ```tsx
      * Taro.getRandomValues({

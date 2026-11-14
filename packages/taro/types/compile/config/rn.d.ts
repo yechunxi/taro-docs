@@ -2,11 +2,12 @@ import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import type webpackDevServer from 'webpack-dev-server'
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
+import type { RollupOptions } from 'rollup'
 import type { IOption, IPostcssOption } from './util'
 
 export interface IRNConfig {
   /** 设置 RN bundle 中注册应用的名称 */
-  appName: string
+  appName?: string
 
   /** entry 利用模块查找规则{name}.{platform}.{ext}自动区分平台 */
   entry?: string
@@ -20,7 +21,7 @@ export interface IRNConfig {
   /** [less](https://lesscss.org/usage/#less-options) 相关配置 */
   less?: IOption
 
-  /** [stylus](https://github.com/NervJS/taro/blob/next/packages/taro-rn-style-transformer/README.md#rnstylus) 相关配置 */
+  /** [stylus](https://github.com/NervJS/taro/blob/main/packages/taro-rn-style-transformer/README.md#rnstylus) 相关配置 */
   stylus?: IOption
 
   /** 配置 postcss 相关插件 */
@@ -53,4 +54,32 @@ export interface IRNConfig {
 
   /** 将 svg 文件转换为组件引入。默认值 false，不开启 */
   enableSvgTransform?: boolean
+
+  alias?: IOption
+
+  /** 设计稿尺寸 */
+  designWidth?: number | ((size?: string | number | Input) => number)
+
+  /** 设计稿尺寸换算规则 */
+  deviceRatio?: TaroGeneral.TDeviceRatio
+
+  /** 原生组件编译配置 */
+  nativeComponents?: {
+    /**
+     * 外部依赖
+     */
+    external?: Array<string | RegExp> | ((arr: Array<string | RegExp>) => Array<string | RegExp>)
+    /**
+     * 设置外部依赖，如果返回 string, 则将该值作为 external， 我们默认将 node_modules 路径下的文件设置为外部依赖
+     */
+    exteranlResolve?: (importee: string, importer: string) => string
+    /**
+     * 组件输出路径，默认值为 'dist'
+     */
+    output?: string
+    /**
+     * 修改 Rollup 打包配置
+     */
+    modifyRollupConfig?: (config: RollupOptions, innerPlugins: { taroResolver: typeof taroResolver, styleTransformer: typeof styleTransformer }) => RollupOptions
+  }
 }
