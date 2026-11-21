@@ -119,8 +119,8 @@ export default {
 | FormProps.subscribeId |  | ✔️ |  |  |  |  |  |  |  |
 | FormProps.conversionTarget |  |  |  | ✔️ |  |  |  |  |  |
 | FormProps.clueComponentId |  |  |  | ✔️ |  |  |  |  |  |
-| FormProps.onSubmit | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
-| FormProps.onReset | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |  |
+| FormProps.onSubmit | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+| FormProps.onReset | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### onSubmitEventDetail
 

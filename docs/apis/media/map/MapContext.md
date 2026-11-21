@@ -763,7 +763,7 @@ MapContext.on('markerClusterClick', (res) => {})
 
 | 参数 | 类型 | 必填 | 说明 |
 | --- | --- | :---: | --- |
-| markerIds | `string[]` | 是 | marker 的 id 集合。 |
+| markerIds | `number[]` | 是 | marker 的 id 集合。 |
 | complete | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用结束的回调函数（调用成功、失败都会执行） |
 | fail | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用失败的回调函数 |
 | success | `(res: TaroGeneral.CallbackResult) => void` | 否 | 接口调用成功的回调函数 |
@@ -806,7 +806,7 @@ event 的合法值
 | --- | --- | --- |
 | clusterId | `number` | 聚合簇的 id |
 | center | `LatLng` | 聚合簇的坐标 |
-| markerIds | `string[]` | 该聚合簇内的点标记数据数组 |
+| markerIds | `number[]` | 该聚合簇内的点标记数据数组 |
 
 ### LatLng
 
