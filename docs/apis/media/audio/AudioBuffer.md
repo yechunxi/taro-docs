@@ -51,8 +51,14 @@ const nowBuffering = myArrayBuffer.getChannelData(channel);
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyFromChannel.html)
 
 ```tsx
-() => void
+(destination: Float32Array, channelNumber: number, startInChannel?: number) => void
 ```
+
+| 参数 | 类型 |
+| --- | --- |
+| destination | `Float32Array` |
+| channelNumber | `number` |
+| startInChannel | `number` |
 
 #### 示例代码
 
@@ -86,7 +92,7 @@ for (let channel = 0; channel < channels; channel++) {
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyToChannel.html)
 
 ```tsx
-(source: Float32Array, channelNumber: number, startInChannel: number) => void
+(source: Float32Array, channelNumber: number, startInChannel?: number) => void
 ```
 
 | 参数 | 类型 | 说明 |
