@@ -141,7 +141,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyFromChannel.html
      */
-    copyFromChannel(): void
+    copyFromChannel(destination: Float32Array, channelNumber: number, startInChannel?: number): void
 
     /** 从指定数组复制样本到 audioBuffer 的特定通道
      * @supported weapp
@@ -153,24 +153,24 @@ declare module '../../index' {
       /** 需要复制到的目的通道号 */
       channelNumber: number,
       /** 复制偏移数据量 */
-      startInChannel: number
+      startInChannel?: number
     ): void
   }
 
   /** `AudioContext` 实例，可通过 `Taro.createAudioContext` 获取。
    *
    * `AudioContext` 通过 `id` 跟一个 `audio` 组件绑定，操作对应的 audio 组件。
-   * @supported weapp
+   * @supported weapp, harmony_hybrid
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.html
    */
   interface AudioContext {
     /** 暂停音频。
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.pause.html
      */
     pause(): void
     /** 播放音频。
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.play.html
      */
     play(): void
@@ -270,7 +270,7 @@ declare module '../../index' {
     /** origin: 发送完整的 referrer; no-referrer: 不发送 */
     referrerPolicy?: 'origin' | 'no-referrer' | string
     /** 播放
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
     play(): void
     /** 暂停
@@ -278,7 +278,7 @@ declare module '../../index' {
      */
     pause(): void
     /** 停止
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
     stop(): void
     /** 跳转到指定位置，单位 s
@@ -292,83 +292,83 @@ declare module '../../index' {
     /** 音频进入可以播放状态，但不保证后面可以流畅播放
      * @supported weapp, h5, rn
      */
-    onCanplay(callback?: () => void): void
+    onCanplay(callback?: InnerAudioContext.OnCanplayCallback): void
     /** 音频播放事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
-    onPlay(callback?: () => void): void
+    onPlay(callback?: InnerAudioContext.OnPlayCallback): void
     /** 音频暂停事件
      * @supported weapp, h5, rn
      */
-    onPause(callback?: () => void): void
+    onPause(callback?: InnerAudioContext.OnPauseCallback): void
     /** 音频停止事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
-    onStop(callback?: () => void): void
+    onStop(callback?: InnerAudioContext.OnStopCallback): void
     /** 音频自然播放结束事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
-    onEnded(callback?: () => void): void
+    onEnded(callback?: InnerAudioContext.OnEndedCallback): void
     /** 音频播放进度更新事件
      * @supported weapp, h5, rn
      */
-    onTimeUpdate(callback?: () => void): void
+    onTimeUpdate(callback?: InnerAudioContext.OnTimeUpdateCallback): void
     /** 音频播放错误事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
-    onError(callback?: (res: InnerAudioContext.onErrorDetail) => void): void
+    onError(callback?: InnerAudioContext.OnErrorCallback): void
     /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      * @supported weapp, h5, rn
      */
-    onWaiting(callback?: () => void): void
+    onWaiting(callback?: InnerAudioContext.OnWaitingCallback): void
     /** 音频进行 seek 操作事件
      * @supported weapp, h5, rn
      */
-    onSeeking(callback?: () => void): void
+    onSeeking(callback?: InnerAudioContext.OnSeekingCallback): void
     /** 音频完成 seek 操作事件
      * @supported weapp, h5, rn
      */
-    onSeeked(callback?: () => void): void
-    /** 取消监听 onCanplay 事件
+    onSeeked(callback?: InnerAudioContext.OnSeekedCallback): void
+    /** 取消监听 canplay 事件
      * @supported weapp, h5, rn
      */
-    offCanplay(callback?: () => void): void
-    /** 取消监听 onPlay 事件
+    offCanplay(callback?: InnerAudioContext.OnCanplayCallback): void
+    /** 取消监听 play 事件
      * @supported weapp, h5, rn
      */
-    offPlay(callback?: () => void): void
-    /** 取消监听 onPause 事件
+    offPlay(callback?: InnerAudioContext.OnPlayCallback): void
+    /** 取消监听 pause 事件
      * @supported weapp, h5, rn
      */
-    offPause(callback?: () => void): void
-    /** 取消监听 onStop 事件
+    offPause(callback?: InnerAudioContext.OnPauseCallback): void
+    /** 取消监听 stop 事件
      * @supported weapp, h5, rn
      */
-    offStop(callback?: () => void): void
-    /** 取消监听 onEnded 事件
+    offStop(callback?: InnerAudioContext.OnStopCallback): void
+    /** 取消监听 ended 事件
      * @supported weapp, h5, rn
      */
-    offEnded(callback?: () => void): void
-    /** 取消监听 onTimeUpdate 事件
+    offEnded(callback?: InnerAudioContext.OnEndedCallback): void
+    /** 取消监听 timeUpdate 事件
      * @supported weapp, h5, rn
      */
-    offTimeUpdate(callback?: () => void): void
-    /** 取消监听 onError 事件
+    offTimeUpdate(callback?: InnerAudioContext.OnTimeUpdateCallback): void
+    /** 取消监听 error 事件
      * @supported weapp, h5, rn
      */
-    offError(callback?: () => void): void
-    /** 取消监听 onWaiting 事件
+    offError(callback?: InnerAudioContext.OnErrorCallback): void
+    /** 取消监听 waiting 事件
      * @supported weapp, h5, rn
      */
-    offWaiting(callback?: () => void): void
-    /** 取消监听 onSeeking 事件
+    offWaiting(callback?: InnerAudioContext.OnWaitingCallback): void
+    /** 取消监听 seeking 事件
      * @supported weapp, h5, rn
      */
-    offSeeking(callback?: () => void): void
-    /** 取消监听 onSeeked 事件
+    offSeeking(callback?: InnerAudioContext.OnSeekingCallback): void
+    /** 取消监听 seeked 事件
      * @supported weapp, h5, rn
      */
-    offSeeked(callback?: () => void): void
+    offSeeked(callback?: InnerAudioContext.OnSeekedCallback): void
   }
 
   namespace InnerAudioContext {
@@ -391,6 +391,26 @@ declare module '../../index' {
       /** 未知错误 */
       '-1'
     }
+    /** 音频进入可以播放状态事件的回调函数 */
+    type OnCanplayCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放事件的回调函数 */
+    type OnPlayCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频暂停事件的回调函数 */
+    type OnPauseCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频停止事件的回调函数 */
+    type OnStopCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频自然播放结束事件的回调函数 */
+    type OnEndedCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放进度更新事件的回调函数 */
+    type OnTimeUpdateCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放错误事件的回调函数 */
+    type OnErrorCallback = (res: onErrorDetail) => void
+    /** 音频加载中事件的回调函数 */
+    type OnWaitingCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频进行 seek 操作事件的回调函数 */
+    type OnSeekingCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频完成 seek 操作事件的回调函数 */
+    type OnSeekedCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
   }
 
   /** MediaAudioPlayer 实例，可通过 [Taro.createMediaAudioPlayer](./createMediaAudioPlayer) 接口获取实例。
@@ -441,7 +461,7 @@ declare module '../../index' {
   }
 
   /** WebAudioContext 实例，通过 [Taro.createWebAudioContext](./createWebAudioContext) 接口获取该实例。
-   * @supported weapp
+   * @supported weapp, h5
    * @example
    * 监听状态
    *
@@ -455,22 +475,22 @@ declare module '../../index' {
    * ```
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.html
    */
-  interface WebAudioContext {
+  interface WebAudioContext extends BaseAudioContext {
     /** 当前 WebAudio 上下文的状态。
      *
      * 可能的值如下：suspended（暂停）、running（正在运行）、closed（已关闭）。
      * 需要注意的是，不要在 audioContext close 后再访问 state 属性
      */
-    state: string
+    state: BaseAudioContext['state']
 
     /** 可写属性，开发者可以对该属性设置一个监听函数，当 WebAudio 状态改变的时候，会触发开发者设置的监听函数。 */
-    onstatechange: () => void
+    onstatechange: BaseAudioContext['onstatechange']
 
     /** 获取当前上下文的时间戳。 */
     currentTime: number
 
     /** 当前上下文的最终目标节点，一般是音频渲染设备。 */
-    destination: WebAudioContextNode
+    destination: AudioDestinationNode
 
     /** 空间音频监听器。 */
     listener: AudioListener
@@ -482,7 +502,7 @@ declare module '../../index' {
      *
      * **注意事项**
      * 同步关闭对应的 WebAudio 上下文。close 后会立即释放当前上下文的资源，**不要在 close 后再次访问 state 属性**。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const audioCtx = Taro.createWebAudioContext()
@@ -495,19 +515,19 @@ declare module '../../index' {
     close(): Promise<void>
 
     /** 同步恢复已经被暂停的 WebAudioContext 上下文
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.resume.html
      */
     resume(): Promise<void>
 
     /** 同步暂停 WebAudioContext 上下文
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.suspend.html
      */
     suspend(): Promise<void>
 
     /** 创建一个 IIRFilterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let lowPassCoefs = [
@@ -547,25 +567,25 @@ declare module '../../index' {
     ): IIRFilterNode
 
     /** 创建一个 WaveShaperNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createWaveShaper.html
      */
     createWaveShaper(): WaveShaperNode
 
     /** 创建一个 ConstantSourceNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createConstantSource.html
      */
     createConstantSource(): ConstantSourceNode
 
     /** 创建一个 OscillatorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createOscillator.html
      */
     createOscillator(): OscillatorNode
 
     /** 创建一个 GainNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createGain.html
      */
     createGain(): GainNode
@@ -585,7 +605,7 @@ declare module '../../index' {
      *
      * const waveNode = audioContext.createPeriodicWave(real, imag, {disableNormalization: true})
      * ```
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPeriodicWave.html
      */
     createPeriodicWave(
@@ -594,41 +614,41 @@ declare module '../../index' {
       /** 一组余弦项(传统上是A项) */
       imag: Float32Array,
       /** 一个字典对象，它指定是否应该禁用规范化(默认启用规范化) */
-      constraints: WebAudioContext.createPeriodicWave.Constraints
+      constraints?: WebAudioContext.createPeriodicWave.Constraints
     ): PeriodicWave
 
     /** 创建一个BiquadFilterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBiquadFilter.html
      */
     createBiquadFilter(): BiquadFilterNode
 
     /** 创建一个 BufferSourceNode 实例，通过 AudioBuffer 对象来播放音频数据。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBufferSource.html
      */
     createBufferSource(): AudioBufferSourceNode
 
     /** 创建一个ChannelMergerNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelMerger.html
      */
     createChannelMerger(
       /** 输出流中需要保持的输入流的个数 */
-      numberOfInputs: number
+      numberOfInputs?: number
     ): ChannelMergerNode
 
     /** 创建一个ChannelSplitterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelSplitter.html
      */
     createChannelSplitter(
       /** 要分别输出的输入音频流中的通道数 */
-      numberOfOutputs: number
+      numberOfOutputs?: number
     ): ChannelSplitterNode
 
     /** 创建一个DelayNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -638,11 +658,11 @@ declare module '../../index' {
      */
     createDelay(
       /** 最大延迟时间 */
-      maxDelayTime: number
+      maxDelayTime?: number
     ): DelayNode
 
     /** 创建一个DynamicsCompressorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -659,7 +679,7 @@ declare module '../../index' {
     createDynamicsCompressor(): DynamicsCompressorNode
 
     /** 创建一个ScriptProcessorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -670,21 +690,21 @@ declare module '../../index' {
      */
     createScriptProcessor(
       /** 缓冲区大小，以样本帧为单位 */
-      bufferSize: number,
+      bufferSize?: number,
       /** 用于指定输入 node 的声道的数量 */
-      numberOfInputChannels: number,
+      numberOfInputChannels?: number,
       /** 用于指定输出 node 的声道的数量 */
-      numberOfOutputChannels: number
+      numberOfOutputChannels?: number
     ): ScriptProcessorNode
 
     /** 创建一个PannerNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPanner.html
      */
     createPanner(): PannerNode
 
     /** 创建一个AudioBuffer，代表着一段驻留在内存中的短音频
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const audioCtx = Taro.createWebAudioContext()
@@ -703,7 +723,7 @@ declare module '../../index' {
     ): AudioBuffer
 
     /** 异步解码一段资源为AudioBuffer。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.request({
@@ -720,7 +740,11 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.decodeAudioData.html
      */
-    decodeAudioData(): AudioBuffer
+    decodeAudioData(
+      audioData: ArrayBuffer,
+      successCallback?: (buffer: AudioBuffer) => void,
+      errorCallback?: (error: any) => void
+    ): Promise<AudioBuffer>
   }
 
   namespace WebAudioContext {
@@ -778,6 +802,15 @@ declare module '../../index' {
      * @supported weapp
      */
     setPosition(...args: any[]): void
+  }
+
+  namespace createInnerAudioContext {
+    interface Option {
+      /** 是否使用 WebAudio 作为底层音频驱动，默认关闭。对于短音频、播放频繁的音频建议开启此选项，开启后将获得更优的性能表现。由于开启此选项后也会带来一定的内存增长，因此对于长音频建议关闭此选项。
+       * @supported weapp
+       */
+      useWebAudioImplement: boolean
+    }
   }
 
   interface TaroStatic {
@@ -861,7 +894,8 @@ declare module '../../index' {
     getAvailableAudioSources(option?: getAvailableAudioSources.Option): Promise<getAvailableAudioSources.SuccessCallbackResult>
 
     /** 创建 WebAudio 上下文。
-     * @supported weapp
+     * H5 使用浏览器 AudioContext，播放可能需要由用户交互触发 resume()。
+     * @supported weapp, h5
      * @example
      * 一个简单的播放demo
      *
@@ -943,7 +977,7 @@ declare module '../../index' {
     createMediaAudioPlayer(): MediaAudioPlayer
 
     /** 创建内部 audio 上下文 InnerAudioContext 对象。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * const innerAudioContext = Taro.createInnerAudioContext()
@@ -959,11 +993,11 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html
      */
-    createInnerAudioContext(): InnerAudioContext
+    createInnerAudioContext(option?: createInnerAudioContext.Option): InnerAudioContext
 
     /** 创建 audio 上下文 AudioContext 对象。
      * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @example
      * ```tsx
      * const audioCtx = Taro.createAudioContext('myAudio')

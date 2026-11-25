@@ -71,6 +71,7 @@ sidebar_label: getSystemInfoAsync
 | enableDebug | `boolean` | 否 | 是否已打开调试。可通过右上角菜单或 [Taro.setEnableDebug](/docs/apis/base/debug/setEnableDebug) 打开调试。 |
 | deviceOrientation | `keyof DeviceOrientation` | 否 | 设备方向 |
 | environment | `string` | 否 | 小程序当前运行环境 |
+| screen | `{ width: number; height: number; }` | 否 | 仅支付宝小程序生效<br />screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。<br />https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253<br />单位: px |
 
 ### Theme
 
